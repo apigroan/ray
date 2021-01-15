@@ -1,0 +1,59 @@
+import org.gradle.internal.SystemProperties
+import org.gradle.util.VersionNumber
+
+plugins {
+    id 'org.openjfx.javafxplugin' version '0.0.8' apply false
+}
+
+apply plugin: 'java'
+apply plugin: 'application'
+
+version '1.0.0'
+
+dependencies {
+    compile project(':ray-gui')
+}
+
+task uberjar(type: Jar) {
+    manifest {
+        attributes 'Main-Class': 'com.github.zxh.classpy.gui.ClasspyApp'
+    }
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+    with jar
+}
+
+def currentJvm = SystemProperties.getInstance().getJavaVersion()
+
+if (VersionNumber.parse(currentJvm) > VersionNumber.parse("1.8")) {
+    run {
+        doFirst {
+            jvmArgs = [
+                    '--module-path', classpath.asPath,
+                    '--add-modules', 'javafx.controls'
+            ]
+        }
+    }
+}
+
+subprojects {
+
+    apply plugin: 'java'
+
+    sourceCompatibility = "1.8"
+
+    sourceCompatibility = '1.8'
+    [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
+
+    dependencies {
+        testCompile 'junit:junit:4.12'
+    }
+
+    repositories {
+        jcenter()
+    }
+
+}
+
+repositories {
+    mavenCentral()
+}

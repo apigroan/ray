@@ -1,0 +1,6 @@
+rootProject.name = 'ray'
+
+include 'ray-gui'
+include 'ray-common'
+include 'ray-jvm'
+
