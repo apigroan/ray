@@ -10,6 +10,8 @@ apply plugin: 'application'
 
 version '1.0.0'
 
+mainClassName = 'com.blindskipper.ray.gui.RayApplication'
+
 dependencies {
     compile project(':ray-gui')
 }
