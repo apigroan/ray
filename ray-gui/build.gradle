@@ -1,3 +1,18 @@
+import org.gradle.internal.SystemProperties
+import org.gradle.util.VersionNumber
+
+def currentJvmVersion = SystemProperties.getInstance().getJavaVersion()
+
+if (VersionNumber.parse(currentJvmVersion) > VersionNumber.parse("1.8")) {
+
+    apply plugin: 'org.openjfx.javafxplugin'
+
+    javafx {
+        version = "11.0.2"
+        modules = [ 'javafx.controls' ]
+    }
+}
+
 dependencies {
     compile project(':ray-common')
     compile project(':ray-jvm')
